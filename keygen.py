@@ -128,6 +128,7 @@ class Keygen:
         aes_key = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(32))
         aes_iv = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(16))
         license_encrypted = self.encrypt_license(aes_key, aes_iv, license_str)
+        print(f'激活码：{license_encrypted}')
         # ooooOOooOo0o = license_encrypted
         # oo0oo0oo = 到期时间戳，毫秒
         license_obj = {
@@ -135,7 +136,6 @@ class Keygen:
             'oo0oo0oo': expire_timestamp * 1000,
             'o0o0ooo0o': False,
             'oooo0o00o': '0000',
-            'oo000ooooo0o0o': None,
             'oooooOooOooo0oooo': 10086
         }
         self.write_file(self.username, self.uuid, ".d")
@@ -188,7 +188,8 @@ class Keygen:
             hashes.SHA256()
         )
         signature_base64 = base64.b64encode(signature).decode()
-        return encrypted_str + signature_base64
+        s = encrypted_str + signature_base64
+        return s
 
 
 class AesUtil:
